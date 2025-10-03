@@ -70,7 +70,7 @@ A complete CRUD (Create, Read, Update, Delete) application built with **Spring B
 
 ```mermaid
 graph TB
-    subgraph "Frontend (React - Port 3000)"
+    subgraph Frontend["Frontend (React - Port 3000)"]
         A[Navbar Component] --> B[Home Page]
         A --> C[Add User]
         A --> D[Edit User]
@@ -79,28 +79,46 @@ graph TB
         F --> G[Action Buttons]
     end
 
-    subgraph "Backend (Spring Boot - Port 8080)"
+    subgraph Backend["Backend (Spring Boot - Port 8080)"]
         H[UserController] --> I[UserRepository]
         I --> J[(MySQL Database)]
         K[User Entity] --> I
         L[Exception Handler] --> H
     end
 
-    subgraph "HTTP Communication"
-        G --> |GET /users| H
-        C --> |POST /user| H
-        D --> |PUT /user/{id}| H
-        G --> |DELETE /user/{id}| H
-        E --> |GET /user/{id}| H
+    subgraph Communication["HTTP Communication"]
+        N1["GET /users"]
+        N2["POST /user"]
+        N3["PUT /user/{id}"]
+        N4["DELETE /user/{id}"]
+        N5["GET /user/{id}"]
     end
 
-    subgraph "Database Schema"
-        J --> M[Users Table<br/>- id: Long<br/>- username: String<br/>- name: String<br/>- email: String]
+    subgraph Database["Database Schema"]
+        M["Users Table<br/>- id: Long<br/>- username: String<br/>- name: String<br/>- email: String"]
     end
 
-    style A fill:#61dafb
-    style H fill:#6db33f
-    style J fill:#00758f
+    %% Connections
+    G --> N1
+    N1 --> H
+    C --> N2
+    N2 --> H
+    D --> N3
+    N3 --> H
+    G --> N4
+    N4 --> H
+    E --> N5
+    N5 --> H
+    J --> M
+
+    %% Styling
+    classDef frontend fill:#61dafb,stroke:#000,color:#000
+    classDef backend fill:#6db33f,stroke:#000,color:#fff
+    classDef database fill:#00758f,stroke:#000,color:#fff
+
+    class A,B,C,D,E,F,G frontend
+    class H,I,K,L backend
+    class J,M database
 ```
 
 ## 🚦 API Endpoints
@@ -247,7 +265,7 @@ sequenceDiagram
     participant C as Spring Controller
     participant DB as MySQL Database
 
-    U->>R: Click "View Users"
+    U->>R: Click View Users
     R->>A: GET /users
     A->>C: HTTP Request
     C->>DB: SELECT * FROM users
